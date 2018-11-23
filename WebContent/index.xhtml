@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3c.org/1999/xhtml"
+xmlns:h="http://xmlns.jcp.org/jsf/html"
+xmlns:f="http://xmlns.jcp.org/jsf/core"
+xmlns:p="http://primefaces.org/ui"
+xmlns:b="http://bootsfaces.net/ui">
+ <h:head>
+ 	<title>Projeto X</title>
+	<script type="text/javascript">
+	    function handleLoginRequest(xhr, status, args) {
+	        if(args.validationFailed || !args.loggedIn) {
+	            PF('dlg').jq.effect("shake", {times:5}, 100);
+	        }
+	        else {
+	            PF('dlg').hide();
+	            $('#loginLink').fadeOut();
+	        }
+	    }
+	</script> 	
+ </h:head>
+ <h:body onload="PF('dlg').show()">
+	<h:form id="loginForm">
+		<p:growl id="growl" sticky="true" showDetail="true" life="3000" />
+		<b:container layout="fluid">
+	    	<b:panel title="Login" look="primary">
+	      	<b:row>
+	        	<b:column medium-screen="2">
+	          		<h:outputText value="Usuario:" for="username" />
+	        	</b:column>
+	        	<b:column medium-screen="4">
+		          	<b:inputText placeholder="Usuario" id="username" value="#{loginView.username}" ajax="true" autocomplete="false">
+			            <f:facet name="prepend">
+			              <b:icon name="user" />
+			            </f:facet>
+		          	</b:inputText>
+	        	</b:column>
+	      	</b:row>
+	      	<b:row>
+	        	<b:column medium-screen="2">
+	          		<h:outputText value="Senha:" />
+	        	</b:column>
+		        <b:column medium-screen="4">
+		          	<b:inputSecret placeholder="Senha" id="password" value="#{loginView.password}" ajax="true" autocomplete="false" >
+			            <f:facet name="prepend">
+			              <b:iconAwesome name="key" />
+			            </f:facet>
+		          	</b:inputSecret>
+		        </b:column>
+	      	</b:row>
+			<b:row>
+		        <b:column span="2" offset="2">
+		          	<b:commandButton value="login" update="growl" actionListener="#{loginView.login}" oncomplete="handleLoginRequest(xhr, status, args)" look="primary" style="width:100%" />
+		        </b:column>
+	      	</b:row>
+	    	</b:panel>
+	  </b:container>
+	</h:form>
+ </h:body>
+</html>
